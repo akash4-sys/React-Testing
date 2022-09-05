@@ -1,70 +1,189 @@
-# Getting Started with Create React App
+# Getting Started with Tests in React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Unit test
+    - Test one unit of code in isolation
 
-## Available Scripts
+- Integration Tests
+    - How multiple tests work together
 
-In the project directory, you can run:
+#### React testing library suggests functional test over unit tests as it defines behaviour more properly
+- Functional tests
+    - This kind of tests checks the behaviour of the app not the implementation
+    - This are rigid and only fails when behaviour/functionality changes
 
-### `npm start`
+- Acceptance tests/ End to end Tests
+    - Use a actual browser using cypress or selenium
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+In tests regex `i` means case insensitive
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+On react testing library you can find which queries are better to use than which query
+For Example - Like get getByRole is better than getByText
 
-### `npm test`
+If you are not sure about roles you can always go to [W3C Roles Definition](https://www.w3.org/TR/wai-aria/#role_definitions) to check out possible roles.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+----
+Some important points
+- In unit tests we only have one expect statement per test
+- In Functional tests since we test the behavior of our application it's not reasonable to limit to just one expect statement per test
+- If you don't want jest to run all your test every time you do `npm test` or automatically in watch mode, you have to commit it.
+---
 
-### `npm run build`
+### Css Module Imports
+- `.toHaveStyle()` does not work with classes from imported CSS module. Jest simply ignores any imported css modules.
+- CSS are not usually tested because they are cosmetic rather than functionality but not like in every application. Here the course [link](https://www.udemy.com/course/react-testing-library/learn/lecture/30436464#content) for more details
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### When to use Unit Test
+- Logic is complicated enough to check via functional tests
+- If there are too many edge cases
+- Determining what caused functional tests to fail
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
+### Describe statement
+It is used to group tests together
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Note: `Quit jest in terminal using q`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Some eslint configuration for jest
+Note: `Make sure your remove eslint config from package.json`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+You have to use both the config to make the eslint for jest work
 
-## Learn More
+<details>
+<summary>Eslint Config for .eslintrc.json file</summary>
+<br>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Create the file on same level as gitignore file.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`Install these libraries first.`
 
-### Code Splitting
+```
+npm i eslint-plugin-testing-library eslint-plugin-jest-dom   
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+{
+  "plugins": ["jest-dom", "testing-library"],
+  "extends": ["react-app", "react-app/jest", "plugin:testing-library/react", "plugin:jest-dom/recommended"]
+}
+```
 
-### Analyzing the Bundle Size
+</details>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+<details>
+<summary>Eslint Config for settings.json file</summary>
+<br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Create a folder with name .vscode on same level as gitignore file and settings.json file inside it.
 
-### Advanced Configuration
+```
+{
+  "eslint.options": {
+    "overrideConfigFile": ".eslintrc.json"
+  },
+  "eslint.validate": ["javascript", "javascriptreact"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+</details>
 
-### Deployment
+<br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+To test the above configuration try replacing 
+```
+expect(linkElement).toBeInTheDocument();
+```
+with :
+```
+expect(linkElement).not.toBeEnabled();
+```
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<details>
+<summary>Udemy Course Author's config for the .eslintrc.json file</summary>
+<br>
+
+This one's optional to above eslintrc file.
+`This settings might not work as some of things might not be supported now. But worth a try.`
+
+```
+{
+  "extends": [
+    "airbnb",
+    "plugin:testing-library/react",
+    "react-app",
+    "react-app/jest",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "paths": ["src"]
+      }
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "testing-library",
+    "jest-dom",
+    "sonarjs",
+    "jsx-a11y",
+    "@typescript-eslint",
+    "simple-import-sort",
+    "prettier"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
+    "testing-library/await-async-query": "error",
+    "testing-library/no-await-sync-query": "error",
+    "testing-library/no-debug": "warn",
+    "jest-dom/prefer-checked": "error",
+    "jest-dom/prefer-enabled-disabled": "error",
+    "jest-dom/prefer-required": "error",
+    "jest-dom/prefer-to-have-attribute": "error",
+    "react/prop-types": ["off"],
+    "sonarjs/cognitive-complexity": ["error", 5],
+    "max-lines-per-function": ["warn", 50],
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
+    "import/extensions": ["error", "never"],
+    "import/no-unresolved": 2,
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "sort-imports": "off",
+    "import/order": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": "error",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-curly-newline": "off",
+    "import/prefer-default-export": "off"
+  }
+}
+```
+
+</details>

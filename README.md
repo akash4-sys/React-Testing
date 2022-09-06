@@ -228,3 +228,29 @@ npm i @testing-library/user-event@14.4.0 @testing-library/dom
 		- Placeholder Texts
 		- Label Texts
 		- DisplayValue
+
+### Mock Service Workers
+Mock Service workers are used to mock the functioning of api calls for testing purposes.
+Documentation Link [MSW](https://mswjs.io/docs/)
+
+Install it `npm i msw`
+
+There are two handlers type in msw REST or GRAPHQL
+
+For Setup Documentation [MSW Setup](https://mswjs.io/docs/getting-started/integrate/node)
+
+For Setting up Mock Service worker add the following lines in `setupTests.js` file
+
+```
+// src/setupTests.js
+import { server } from './mocks/server.js'
+// Establish API mocking before all tests.
+beforeAll(() => server.listen())
+
+// Reset any request handlers that we may add during the tests,
+// so they don't affect other tests.
+afterEach(() => server.resetHandlers())
+
+// Clean up after the tests are finished.
+afterAll(() => server.close())
+```

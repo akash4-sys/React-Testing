@@ -1,18 +1,21 @@
 # Getting Started with Tests in React
 
 - Unit test
-    - Test one unit of code in isolation
+
+  - Test one unit of code in isolation
 
 - Integration Tests
-    - How multiple tests work together
+  - How multiple tests work together
 
 #### React testing library suggests functional test over unit tests as it defines behaviour more properly
+
 - Functional tests
-    - This kind of tests checks the behaviour of the app not the implementation
-    - This are rigid and only fails when behaviour/functionality changes
+
+  - This kind of tests checks the behaviour of the app not the implementation
+  - This are rigid and only fails when behaviour/functionality changes
 
 - Acceptance tests/ End to end Tests
-    - Use a actual browser using cypress or selenium
+  - Use a actual browser using cypress or selenium
 
 In tests regex `i` means case insensitive
 
@@ -21,26 +24,33 @@ For Example - Like get getByRole is better than getByText
 
 If you are not sure about roles you can always go to [W3C Roles Definition](https://www.w3.org/TR/wai-aria/#role_definitions) to check out possible roles.
 
-----
+---
+
 Some important points
+
 - In unit tests we only have one expect statement per test
 - In Functional tests since we test the behavior of our application it's not reasonable to limit to just one expect statement per test
 - If you don't want jest to run all your test every time you do `npm test` or automatically in watch mode, you have to commit it.
+
 ---
 
 ### Css Module Imports
+
 - `.toHaveStyle()` does not work with classes from imported CSS module. Jest simply ignores any imported css modules.
 - CSS are not usually tested because they are cosmetic rather than functionality but not like in every application. Here the course [link](https://www.udemy.com/course/react-testing-library/learn/lecture/30436464#content) for more details
 
 ---
 
 ### When to use Unit Test
+
 - Logic is complicated enough to check via functional tests
 - If there are too many edge cases
 - Determining what caused functional tests to fail
 
 ---
+
 ### Describe statement
+
 It is used to group tests together
 
 ---
@@ -50,6 +60,7 @@ Note: `Quit jest in terminal using q`
 ---
 
 ### Some eslint configuration for jest
+
 Note: `Make sure your remove eslint config from package.json`
 
 You have to use both the config to make the eslint for jest work
@@ -63,7 +74,7 @@ Create the file on same level as gitignore file.
 `Install these libraries first.`
 
 ```
-npm i eslint-plugin-testing-library eslint-plugin-jest-dom   
+npm i eslint-plugin-testing-library eslint-plugin-jest-dom
 ```
 
 ```
@@ -74,7 +85,6 @@ npm i eslint-plugin-testing-library eslint-plugin-jest-dom
 ```
 
 </details>
-
 
 <details>
 <summary>Eslint Config for settings.json file</summary>
@@ -98,15 +108,17 @@ Create a folder with name .vscode on same level as gitignore file and settings.j
 
 <br/>
 
-To test the above configuration try replacing 
+To test the above configuration try replacing
+
 ```
 expect(linkElement).toBeInTheDocument();
 ```
+
 with :
+
 ```
 expect(linkElement).not.toBeEnabled();
 ```
-
 
 <details>
 <summary>Udemy Course Author's config for the .eslintrc.json file</summary>
@@ -187,3 +199,32 @@ This one's optional to above eslintrc file.
 ```
 
 </details>
+
+### User-Events
+
+It's recommended to use userEvents over fireEvents
+`fireEvent` dispatches DOM events, whereas user-event simulates full interactions, which may fire multiple events and do additional checks along the way.
+
+To use User-Events downloading following dependencies
+
+```
+npm i @testing-library/user-event@14.4.0 @testing-library/dom
+```
+
+### Different Methods For Screen Queries
+
+- get: expect element to be in DOM
+- query: expect element to not be in DOM
+- find: expect element to appear async
+- ALL
+	- (exclude) expect only one match
+	- (include) expect more than one match
+
+- QueryType
+	- Role (most preferred)
+	- AltText (images)
+	- Text
+	- Form elements
+		- Placeholder Texts
+		- Label Texts
+		- DisplayValue

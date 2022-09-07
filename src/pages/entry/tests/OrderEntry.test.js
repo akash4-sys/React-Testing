@@ -4,12 +4,14 @@ import { rest } from 'msw';
 import { server } from '../../../mocks/server';
 
 test("handles error for scoops and toppings route", async () => {
+
+    // here if res is not returned although test will past some warnings will be there, so return it
     server.resetHandlers(
         rest.get('http://localhost:3030/scoops', (req, res, ctx) => {
-            res(ctx.status(500));
+            return res(ctx.status(500));
         }),
-        rest.get('http://localhost:3030/topppingd', (req, res, ctx) => {
-            res(ctx.status(500));
+        rest.get('http://localhost:3030/toppings', (req, res, ctx) => {
+            return res(ctx.status(500));
         })
     )
     render(<OrderEntry />);

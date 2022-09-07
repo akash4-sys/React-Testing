@@ -270,7 +270,7 @@ So instead use `waitFor`
 WaitFor Example
 ```
     await waitFor(async () => { 
-        const alerts = await screen.findAllByRole('alert', { name: 'An unexpected error occur please try again later.' });
+        const alerts = await screen.findAllByRole('alert');
         expect(alerts).toHaveLength(2);
     });
 ```

@@ -30,6 +30,11 @@ Some important points
 
 - In unit tests we only have one expect statement per test
 - In Functional tests since we test the behavior of our application it's not reasonable to limit to just one expect statement per test
+
+### More Jest Controls
+- Use `p` to *select a specific test file* for jest to run
+- Use `test.only(...)` while writing test to run only that test from that file and skip other tests
+- Use `test.skip(...)` while writing test to skip one test from that file and run other tests
 - If you don't want jest to run all your test every time you do `npm test` or automatically in watch mode, you have to commit it.
 
 ---
@@ -256,3 +261,16 @@ afterAll(() => server.close())
 ```
 Note- 
 Whenever you are waiting for something to appear asynchronously on the page you must use `await findBy`
+
+### Alert and await problem - Soluton waitFor
+await doesn't works for Alerts as their could be multiple alerts and each one will come at different time..
+
+So instead use `waitFor`
+
+WaitFor Example
+```
+    await waitFor(async () => { 
+        const alerts = await screen.findAllByRole('alert', { name: 'An unexpected error occur please try again later.' });
+        expect(alerts).toHaveLength(2);
+    });
+```

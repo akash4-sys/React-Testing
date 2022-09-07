@@ -254,3 +254,5 @@ afterEach(() => server.resetHandlers())
 // Clean up after the tests are finished.
 afterAll(() => server.close())
 ```
+Note- 
+Whenever you are waiting for something to appear asynchronously on the page you must use `await findBy`

@@ -61,8 +61,7 @@ export function OrderDetailsProvider(props) {
       setOptionCounts(newOptionCounts);
     }
 
-    // alternate updateItemCount that DOES NOT mutate state. Reference Q&A:
-    // https://www.udemy.com/course/react-testing-library/learn/#questions/14446658/
+    // alternate updateItemCount that DOES NOT mutate state
     // function updateItemCount(itemName, newItemCount, optionType) {
     //   // get option Map and make a copy
     //   const { [optionType]: optionMap } = optionCounts;

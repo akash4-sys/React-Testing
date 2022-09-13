@@ -1,3 +1,4 @@
+// This down here is just a comment to test what params function takes and what params function returns
 /**
  * @function formatCurrency
  * Format number as currency (US Dollars)

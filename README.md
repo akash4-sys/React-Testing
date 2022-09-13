@@ -7,7 +7,7 @@
 - Integration Tests
   - How multiple tests work together
 
-#### React testing library suggests functional test over unit tests as it defines behaviour more properly
+### React testing library suggests functional test over unit tests as it defines behaviour more properly
 
 - Functional tests
 
@@ -19,7 +19,7 @@
 
 In tests regex `i` means case insensitive
 
-On react testing library you can find which queries are better to use than which query
+On react testing library website you can find which queries are better to use than other queries
 For Example - Like get getByRole is better than getByText
 
 If you are not sure about roles you can always go to [W3C Roles Definition](https://www.w3.org/TR/wai-aria/#role_definitions) to check out possible roles.
@@ -32,7 +32,8 @@ Some important points
 - In Functional tests since we test the behavior of our application it's not reasonable to limit to just one expect statement per test
 
 ### More Jest Controls
-- Use `p` to *select a specific test file* for jest to run
+
+- Use `p` to _select a specific test file_ for jest to run
 - Use `test.only(...)` while writing test to run only that test from that file and skip other tests
 - Use `test.skip(...)` while writing test to skip one test from that file and run other tests
 - If you don't want jest to run all your test every time you do `npm test` or automatically in watch mode, you have to commit it.
@@ -219,22 +220,24 @@ npm i @testing-library/user-event@14.4.0 @testing-library/dom
 ### Different Methods For Screen Queries
 
 - get: expect element to be in DOM
-- query: expect element to not be in DOM
+- query: expected element to not be in DOM
 - find: expect element to appear async
 - ALL
-	- (exclude) expect only one match
-	- (include) expect more than one match
+
+  - (exclude) expect only one match
+  - (include) expect more than one match
 
 - QueryType
-	- Role (most preferred)
-	- AltText (images)
-	- Text
-	- Form elements
-		- Placeholder Texts
-		- Label Texts
-		- DisplayValue
+  - Role (most preferred)
+  - AltText (images)
+  - Text
+  - Form elements
+    - Placeholder Texts
+    - Label Texts
+    - DisplayValue
 
 ### Mock Service Workers
+
 Mock Service workers are used to mock the functioning of api calls for testing purposes.
 Documentation Link [MSW](https://mswjs.io/docs/)
 
@@ -259,18 +262,46 @@ afterEach(() => server.resetHandlers())
 // Clean up after the tests are finished.
 afterAll(() => server.close())
 ```
-Note- 
+
+Note-
 Whenever you are waiting for something to appear asynchronously on the page you must use `await findBy`
 
 ### Alert and await problem - Soluton waitFor
+
 await doesn't works for Alerts as their could be multiple alerts and each one will come at different time..
 
 So instead use `waitFor`
 
 WaitFor Example
+
 ```
-    await waitFor(async () => { 
+    await waitFor(async () => {
         const alerts = await screen.findAllByRole('alert');
         expect(alerts).toHaveLength(2);
     });
 ```
+
+### Debugging
+
+- To print the DOM in the test console just use `screen.debug()`
+- `getBy` fails when there a server call or other async action
+  - use `await findBy` in this case
+
+Resolving errors from Tests
+| Error                                                                                                        | Possible Cause                                                                      |
+| ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| Unable to find role = 'role'                                                                                 | Either role doesn't exist or no element with that role also matches the name option |
+| An update to component inside the test was no wrapped                                                        | There was an update to component after the test completed                           |
+| Warning Can't perform react state update on a unmounted component. Indicates memory leak in your application | There was an update to component state after the test completed                     |
+
+### Jest Mock Functions
+
+Jest Mock functions are mock functions that don't actually do anything but they are there in case like when you are passing a function on a component.
+
+For example -
+`<SomeComponent onClick={jest.fn()}/>`
+
+Here `jest.fn()` doesn't actually do anything it's just a filler.
+
+### React Best Practices
+[An article from Kent C Dodds about RTL](https://kentcdodds.com/blog/common-mistakes-with-react-testing-library)
